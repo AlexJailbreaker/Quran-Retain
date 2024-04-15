@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="services.css">
+<script src="myScript1.js"></script>
+<script>
+function getname(text){
+  	let pattern = /(سورة\s[\u0600-\u06FF]+)|([Ss][Uu][Rr][Aa][Hh]\s[A-Za-z]+)/g;
+  	let result = text.match(pattern);
+	return result;
+}
+</script>
+</head>
+
+<body>
+
+<audio id="errorSound1">
+  <source src="errorsound2.mp3" type="audio/mp3">
+</audio>
+<audio id="errorSound2">
+  <source src="errorsound.mp3" type="audio/mp3">
+</audio>
+
+<div id="overlay">
+
+<div id= 'div2' class="container" onmouseover = "quran_image_on('on')" onmouseout = "quran_image_on('off')">
+  <h1>Upload Your <span style="position:relative"><span id = "qurantext" style="position:relative transition: opacity 100ms ease">Quran&nbsp;</span><img id="quranimage" src = "quran.png"></span>Audio</h1>
+  <form class="file-upload">
+    <label for="myFile" >
+      <img id="overlay_image" style="cursor:pointer;"src="upload.png" width=65px viewBox="0 0 24 24" fill="none" stroke="#007bff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></img>
+      <p style="cursor:pointer;" id = "errormessageoverlay">Drag and drop files here or click to browse</p>
+      <input type="file" id="myFile" name="filename" onchange="changer(this)" accept=".mp3" >
+    </label>
+    <input type="submit" style="display:none;">
+  </form>
+</div>
+
+</div>
+
+	<audio id="myAudio" hidden>
+		<source id="audio_file_path"  type="audio/mp3"/>
+	</audio>
+	<input type="text" id="audioFilepath"  placeholder="Audio Filepath" readonly hidden>
+
+	
+		
+
+<div id="flex_container">
+<div class="player" >
+			<img src="vinyl.png" width=180px;   id='disc_image'>
+
+			<p id = "surahName_Qari" style="padding:0px;  text-align:center;margin-top:70px ; color:white"></p>
+
+			<div class="slidecontainer" style="position: relative;left: 20px;top:25px">
+ 			<input type="range" min="0" max="100" value="0" class="slider" id="myRange" onchange="slider_change(this.value)" >
+			<p id="time_progross" style="display: inline-block;font-size:20px; color:white;" class="text_number">0:00</p>
+			<p id="total_time" style="display: inline-block ; position:relative ; left:260px; font-size:20px;color:white;" class="text_number" >00:00</p>
+			</div>	
+
+			<img  src="play-button.png"  width=100px; id="play_button" style="position: relative;
+  			left: 150px;top:60px ; cursor:pointer" onmouseover="this.src='play-button(2).png'" onmouseout="this.src='play-button.png'" onclick="audio_element.play()">
+
+			<img  src="pause.png"  id="pause_button"width=100px; style=" user-select: none ; position: relative;
+  			left: 150px;top:60px ; cursor:pointer; display:none" onclick="this.style.display='none'; document.getElementById('play_button').style.display='initial';audio_element.pause(); " onmouseover="this.src='pause(1).png'" 				onmouseout="this.src='pause.png'" >
+
+
+			<img  src="two_right_1.png"  width=60px; style=" user-select: none ; position: relative;
+			left: 195px;top:40px ; cursor:pointer" onmouseover="this.src='two_right_2.png' " onmouseout="this.src='two_right_1.png' "  onclick="forward_backward(2)">
+
+			<img  src="five_left_1.png"  width=60px; style=" user-select: none ;  position: relative;
+  			left: -130px;top:40px ; cursor:pointer" onmouseover="this.src='five_left_2.png' " onmouseout="this.src='five_left_1.png'" onclick="forward_backward(5)" >
+
+			<img  src="volume.png"  width=50px; style=" user-select: none ;  position: relative;
+  			left: -200px;top:130px ; cursor:pointer" onmouseover="this.src='volume(1).png' " onmouseout="this.src='volume.png' " onclick="(document.getElementById('volume_controler').style.display=='none')?							document.getElementById('volume_controler').style.display='initial' : document.getElementById('volume_controler').style.display='none'">
+
+			<input type="range" style=" user-select: none ;  display:none; position: relative;
+  			left: 90px;top:90px ; cursor: -webkit-grab; cursor: grab;" id="volume_controler" onchange="volume_control(this.value)" value=10 min=0 max=10 >
+		</div> 
+		<div style="order:1; display:inline-flex; flex-direction:column;">
+		<img src= "book2.png" style="width:30%; height:auto; position:relative; top:5px; left:10px; cursor:pointer"/>
+		<div style="display:inline-flex; flex-direction:row;position:relative">
+		<button class="button-64" role="button" ><span class="text" style="padding: 0px 0px; position:relative;"><input type='number' id="num_verses"  min=1 max=30  placeholder="#" onkeydown="preventKeyboardInput(event)"></span></button>
+		<button class="button-30" role="button" onclick="save_upload('s')" disabled style="cursor:no-drop" id="save_button">Save</button>
+		<button class="button-30" role="button" onclick="save_upload('u') " id='release'>Release</button>
+<textarea placeholder="PASTE YOUR SAVED TEXT" style="position: absolute;top:200px; z-index:3;display:none; font-size:30px;" id="upload_textarea" rows=5 cols=40 onchange="upload_func(this.value)"></textarea>
+
+		</div>
+		<div style="display:inline-flex; flex-direction:row; align-self: flex-start; flex-wrap:wrap;">
+		<div><button class="button-64" role="button" onclick="checking()" id="proccess" ><span class="text">PROCESS</span></button></div>
+		<div><button class="button-64" role="button" onclick="revealTimeMarker()" ><span class="text">TIME MARKER</span></button></div>
+		<div><button class="button-30" role="button" style="border-radius:60px; margin-left:20px;margin-top:25px;text-align: center; width:100px;" onclick="reset()" ><img src="undo.png" width=50px;/></button></div>
+		</div>
+		<br/>
+		<div style="display:inline-flex; flex-direction:row;">
+		<div><button class="button-54" role="button" id="startTimestamp"    onclick=" element_time_fill('left')" disabled>start time</button></div>
+		<div><button class="button-54" role="button" id="endTimestamp" onclick="element_time_fill('right')" disabled >end time</button></div>
+		</div>
+		<div id="verses_section"">
+		</div>
+		</div>
+
+</div>
+
+</body>
+<script src="myScript2.js"></script>
+</html>
